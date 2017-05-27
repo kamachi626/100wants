@@ -5,7 +5,7 @@
 	<img class="icon-img" src="https://twitter.com/{{$list_user->nickname}}/profile_image?size=bigger">
 	<h1 class="title">{{$list->title}}</h1>
 	<h2 class="name">
-		<a href="https://twitter.com/{{$list_user->nickname}}" target="_blank">
+		<a href="/{{$list_user->nickname}}">
 			{{$list_user->name}}
 		</a>
 	</h2>
