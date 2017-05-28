@@ -22,7 +22,7 @@
 		<meta name="og:url" content="{{Request::url()}}">
 		<meta name="og:type" content="{{isset($is_top) ? "website" : "article"}}">
 		<meta name="og:description" content="死ぬまでにやりたい100のこととかを管理するやつ">
-		<meta name="og:image" content="/img/ogimage.jpg">
+		<meta name="og:image" content="{{url("/img/ogimage.jpg")}}">
 		<meta name="twitter:card" content="summary_large_image">
 		<meta name="twitter:site" content="@shogo_kamachi">
 		<meta name="twitter:title" content="{{isset($subtitle) ? $subtitle : "やりたいことリスト"}}">
