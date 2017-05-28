@@ -6,11 +6,28 @@
 <!DOCTYPE html>
 <html lang="{{ config('app.locale') }}">
 	<head>
+
+		@php
+			// タイトル構築
+			$page_title = (isset($subtitle) ? $subtitle." - " : "")."やりたいことリスト";
+		@endphp
+
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<title>{{isset($subtitle) ? $subtitle : ""}}やりたいことリスト</title>
+		<!-- OGP -->
+		<meta name="og:site_name" content="やりたいことリスト">
+		<meta name="og:title" content="{{$page_title}}">
+		<meta name="og:url" content="{{Request::url()}}">
+		<meta name="og:type" content="{{isset($is_top) ? "website" : "article"}}">
+		<meta name="og:description" content="死ぬまでにやりたい100のこととかを管理するやつ">
+		<meta name="og:image" content="/img/ogimage.jpg">
+		<meta name="twitter:card" content="summary_large_image">
+		<meta name="twitter:site" content="@shogo_kamachi">
+		<meta name="twitter:title" content="{{isset($subtitle) ? $subtitle : "やりたいことリスト"}}">
+
+		<title>{{$page_title}}</title>
 
 		<!-- Script -->
 		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha256-k2WSCIexGzOj3Euiig+TlR8gA0EmPjuc79OEeY5L45g=" crossorigin="anonymous"></script>

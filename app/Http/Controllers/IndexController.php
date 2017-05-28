@@ -29,6 +29,7 @@ class IndexController extends Controller
         return view('index', [
         	"user" => $user,
         	"profile_user" => $user,
+            "is_top" => true,
         ]);
 
     }

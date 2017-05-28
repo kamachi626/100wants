@@ -44,6 +44,7 @@ class ListController extends Controller
             "items" => $items,
             "color" => $list->color,
             "is_editable" => $is_editable,
+            "subtitle" => $list->title."(".$list_user->name.")",
         ]);
 
     }
@@ -79,6 +80,7 @@ class ListController extends Controller
             "list" => $list,
             "items" => $items,
             "color" => $list->color,
+            "subtitle" => "リストの作成",
         ]);
 
     }
@@ -113,6 +115,7 @@ class ListController extends Controller
             "list" => $list,
             "items" => $items,
             "color" => $list->color,
+            "subtitle" => "リストの編集(".$list->title.")",
         ]);
 
     }

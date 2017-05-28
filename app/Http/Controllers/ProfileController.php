@@ -35,6 +35,7 @@ class ProfileController extends Controller
         	"profile_user" => $profile_user,
         	"lists" => $lists,
             "color" => $profile_user->color,
+            "subtitle" => $profile_user->name,
         ]);
 
     }
