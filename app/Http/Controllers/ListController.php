@@ -188,31 +188,18 @@ class ListController extends Controller
 
         }
 
-        // 件数
-        $item_count = 0;
+        // 属性
         $item_titles = $req->input("item_titles");
         $item_comments = $req->input("item_comments");
         $item_dones = $req->input("item_dones");
         $item_done_dates = $req->input("item_done_dates");
-        foreach ($item_titles as $item_title) {
-            if(isset($item_title)) {
-                $item_count++;
-            }
-        }
-
+        
         // リストの色
         $color = $user->color;
         $list_color = $req->input("list_color");
         if(isset($list_color)) {
             $color = preg_replace("/#/", "", $list_color);
         }
-
-        // リスト情報保存
-        DB::table("lists")->where("id", $id)->update([
-            "title" => $req->input("title"),
-            "count" => $item_count,
-            "color" => $color,
-        ]);
 
         // 項目保存
         for ($i=0; $i < 100; $i++) { 
@@ -223,6 +210,14 @@ class ListController extends Controller
                 "done" => isset($item_done_dates[$i]) ? $item_done_dates[$i] : null,
             ]);
         }
+
+        // リスト情報保存
+        DB::table("lists")->where("id", $id)->update([
+            "title" => $req->input("title"),
+            "count" => DB::table("items")->where("list_id", $id)->whereNotNull("title")->count(),
+            "done" => DB::table("items")->where("list_id", $id)->whereNotNull("title")->where("is_done", true)->count(),
+            "color" => $color,
+        ]);
 
         // リダイレクト
         return redirect("/list/".$list->id);
