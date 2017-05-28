@@ -42,6 +42,7 @@ class LoginController extends Controller
             "nickname" => $userData->nickname,
             "color" => $userData->user["profile_link_color"],
             "image" => $userData->avatar_original,
+            "remember_token" => md5(uniqid(rand(), true)),
         ]);
 
         // 再取得
@@ -49,7 +50,7 @@ class LoginController extends Controller
 
         // セッションに格納
         $session = $req->session();
-        $session->put('user.id', $user->id);
+        $session->put('user.id', $user->remember_token);
         
         // リダイレクト
         $pre_url = $session->get("pre_login_url");

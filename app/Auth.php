@@ -14,11 +14,11 @@ class Auth
         if(is_null($session)) {
         	return null;
         }
-        $userId = $session->get("user.id");
-        if(is_null($userId)) {
+        $remember_token = $session->get("user.id");
+        if(is_null($remember_token)) {
         	return null;
         }
-        $user = DB::table("users")->where("id", $userId)->first();
+        $user = DB::table("users")->where("remember_token", $remember_token)->first();
         return $user;
     }
 

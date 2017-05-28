@@ -20,7 +20,7 @@
 		<meta name="og:site_name" content="やりたいことリスト">
 		<meta name="og:title" content="{{$page_title}}">
 		<meta name="og:url" content="{{Request::url()}}">
-		<meta name="og:type" content="{{isset($is_top) ? "website" : "article"}}">
+		<meta name="og:type" content="{{Request::is("/") ? "website" : "article"}}">
 		<meta name="og:description" content="死ぬまでにやりたい100のこととかを管理するやつ">
 		<meta name="og:image" content="{{url("/img/ogimage.jpg")}}">
 		<meta name="twitter:card" content="summary_large_image">

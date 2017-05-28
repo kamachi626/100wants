@@ -22,7 +22,7 @@ class ProfileController extends Controller
         $user = Auth::user($req);
 
         // プロフィール表示ユーザ
-        $profile_user = DB::table("users")->where("nickname", $id)->first();
+        $profile_user = DB::table("users")->where("nickname", $id)->orderBy("updated_at", "desc")->first();
         if(is_null($profile_user)) {
             return abort(404);
         }
