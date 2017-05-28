@@ -71,6 +71,9 @@ class ListController extends Controller
         for ($i=0; $i < 100; $i++) { 
             $item = new stdClass();
             $item->title = null;
+            $item->comment = null;
+            $item->is_done = null;
+            $item->done = null;
             $items[$i] = $item;
         }
 
