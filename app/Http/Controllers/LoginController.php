@@ -36,13 +36,12 @@ class LoginController extends Controller
 
         }
 
-        // ユーザ引き当てID
-
         // 情報の更新
         DB::table("users")->where("id", $userId)->update([
             "name" => $userData->getName(),
             "nickname" => $userData->nickname,
             "color" => $userData->user["profile_link_color"],
+            "image" => $userData->avatar_original,
         ]);
 
         // 再取得

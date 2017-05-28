@@ -2,7 +2,7 @@
 
 @section('main-content')
 <header>
-	<img class="icon-img" src="https://twitter.com/{{$list_user->nickname}}/profile_image?size=bigger">
+	<img class="icon-img" src="{{$list_user->image}}">
 	<h1 class="title">{{$list->title}}</h1>
 	<h2 class="name">
 		<a href="/{{$list_user->nickname}}">

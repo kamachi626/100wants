@@ -7,7 +7,7 @@
 ]) }}
 
 	<header>
-		<img class="icon-img" src="https://twitter.com/{{$user->nickname}}/profile_image?size=bigger">
+		<img class="icon-img" src="{{$user->image}}">
 		{{Form::text("title", $list->title, [
 			"maxlength" => "64",
 			"class" => "pure-u-1 title edit-title",

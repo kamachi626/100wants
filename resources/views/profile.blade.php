@@ -2,7 +2,7 @@
 
 @section('main-content')
 	<header>
-		<img class="icon-img" src="https://twitter.com/{{$profile_user->nickname}}/profile_image?size=bigger">
+		<img class="icon-img" src="{{$profile_user->image}}">
 		<h1 class="title">
 			<a href="https://twitter.com/{{$profile_user->nickname}}" target="_blank">
 				{{$profile_user->name}}

@@ -12,7 +12,7 @@
 	@else
 		<section class="profile">
 			<a href="/{{$user->nickname}}">
-				<img class="icon-img" src="https://twitter.com/{{$user->nickname}}/profile_image?size=normal">
+				<img class="icon-img" src="{{$user->image}}">
 				<div class="name">
 					{{'@'.$user->nickname}}
 				</div>
