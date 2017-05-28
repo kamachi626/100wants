@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Socialite;
 use DB;
+use URL;
 
 class LoginController extends Controller
 {
@@ -14,6 +15,7 @@ class LoginController extends Controller
     public function login(Request $req)
     {
         $req->session()->flush();
+        $req->session()->put("pre_login_url", URL::previous());
     	return Socialite::driver('twitter')->redirect();
     }
 
@@ -48,18 +50,21 @@ class LoginController extends Controller
 
         // セッションに格納
         $session = $req->session();
-        $session->flush();
         $session->put('user.id', $user->id);
-        $session->put('user.name', $user->name);
-        $session->put('user.nickname', $user->nickname);
-        return redirect("/");
+        
+        // リダイレクト
+        $pre_url = $session->get("pre_login_url");
+        if(!isset($pre_url)) {
+            $pre_url = "/";
+        }
+        return redirect($pre_url);
 
     }
 
     /* ログアウト */
     public function logout(Request $req) {
         $req->session()->flush();
-        return redirect("/");
+        return redirect(URL::previous());
     }
 
 }

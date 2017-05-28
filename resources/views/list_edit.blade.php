@@ -1,7 +1,10 @@
 @extends('master')
 
 @section('main-content')
-{{ Form::open(["class" => "pure-form ", 'method' => "post"]) }}
+{{ Form::open([
+	"class" => "pure-form ",
+	"method" => "post"
+]) }}
 
 	<header>
 		<img class="icon-img" src="https://twitter.com/{{$user->nickname}}/profile_image?size=bigger">
@@ -57,13 +60,20 @@
 		</section>
 
 		<footer class="pure-g menu">
-			{{ Form::submit("保存", ["name" => "save", "class" => "pure-u-1 pure-button menu-button"]) }}
-			{{ Form::submit("削除", [
-				"name" => "delete",
-				"class" => "pure-u-1 pure-button menu-button",
-				"onclick" => "return confirm('リストを削除してよろしいですか？');"
-			]) }}
-			<button type="button" class="pure-u-1 pure-button menu-button" onclick="location.href='/list/{{$list->id}}';">キャンセル</button>
+			@if ($list->id == -1)
+				{{ Form::submit("登録", ["name" => "create", "class" => "pure-u-1 pure-button menu-button"]) }}
+			@else
+				{{ Form::submit("保存", ["name" => "update", "class" => "pure-u-1 pure-button menu-button"]) }}
+				{{ Form::submit("削除", [
+					"name" => "delete",
+					"class" => "pure-u-1 pure-button menu-button",
+					"onclick" => "return confirm('リストを削除してよろしいですか？');"
+				]) }}
+			@endif
+			@php
+				$cancel_url = $list->id == -1 ? "/".$user->nickname : "/list/".$list->id;
+			@endphp
+			<button type="button" class="pure-u-1 pure-button menu-button" onclick="location.href='{{$cancel_url}}';">キャンセル</button>
 		</footer>
 
 		{{ Form::hidden("list_id", $list->id) }}

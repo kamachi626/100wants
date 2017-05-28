@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Auth;
 use DB;
+use stdClass;
 
 class ListController extends Controller
 {
@@ -57,33 +58,28 @@ class ListController extends Controller
             return abort(403);
         }
 
-        // 多すぎる
-        $list_count = DB::table("lists")->where("user_id", $user->id)->count();
-        if($list_count >= 50) {
-            return view("error", [
-                "user" => $user,
-                "error_code" => "Error",
-                "error_message" => "これ以上登録できません。いらないリストを削除してください。"
-            ]);
-        }
-
         // 作成
-        $list_id = DB::table("lists")->insertGetId([
-            "user_id" => $user->id,
-            "title" => $user->name."のやりたいことリスト",
-            "color" => $user->color,
-        ]);
+        $list = new stdClass();
+        $list->id = -1;
+        $list->user_id = $user->id;
+        $list->title = $user->name."のやりたいことリスト";
+        $list->color = $user->color;
 
-        // 項目作成
+        // 項目構築
+        $items = array();
         for ($i=0; $i < 100; $i++) { 
-            DB::table("items")->insert([
-                "list_id" => $list_id,
-                "index" => $i,
-            ]);
+            $item = new stdClass();
+            $item->title = null;
+            $items[$i] = $item;
         }
 
-        // リダイレクト
-        return redirect("/list/".$list_id."/edit");
+        // 表示
+        return view("list_edit", [
+            "user" => $user,
+            "list" => $list,
+            "items" => $items,
+            "color" => $list->color,
+        ]);
 
     }
 
@@ -122,7 +118,7 @@ class ListController extends Controller
     }
 
     /* 指定したリストの保存 */
-    public function save(Request $req)
+    public function update(Request $req)
     {
 
         // ID
@@ -134,10 +130,39 @@ class ListController extends Controller
             return abort(403);
         }
 
+        // 作成の場合
+        if(!is_null($req->input("create"))) {
+
+            // 多すぎる
+            if(!$this->_isCreatable($user->id)) {
+                return view("error", [
+                    "user" => $user,
+                    "error_code" => "Error",
+                    "error_message" => "これ以上登録できません。いらないリストを削除してください。"
+                ]);
+            }
+
+            // 作成
+            $id = DB::table("lists")->insertGetId([
+                "user_id" => $user->id,
+                "title" => "title",
+                "color" => $user->color,
+            ]);
+
+            // 項目作成
+            for ($i=0; $i < 100; $i++) { 
+                DB::table("items")->insert([
+                    "list_id" => $id,
+                    "index" => $i,
+                ]);
+            }
+
+        }
+
         // リストが見つからない
         $list = DB::table("lists")->where("id", $id)->first();
         if(is_null($list)) {
-            return abort(403);
+            return abort(404);
         }
 
         // 別ユーザ
@@ -155,11 +180,6 @@ class ListController extends Controller
             // リスト一覧にリダイレクト
             return redirect("/");
 
-        }
-
-        // 保存ではない
-        if(is_null($req->input("save"))) {
-            return abort(403);
         }
 
         // 件数
@@ -195,6 +215,12 @@ class ListController extends Controller
         // リダイレクト
         return redirect("/list/".$list->id);
 
+    }
+
+    /* 作成可能か */
+    public function _isCreatable($id) {
+        $list_count = DB::table("lists")->where("user_id", $id)->count();
+        return $list_count < 50;
     }
 
 }

@@ -45,16 +45,16 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        $user = Auth::user($request);
         if($this->isHttpException($e)) {
+            $user = Auth::user($request);
             // 404
             if($e->getStatusCode() == 404) {
                 return response()->view("error", ["error_code" => $e->getStatusCode(), "error_message" => "ページが見つかりません。", "user" => $user], $e->getStatusCode());
             }
+            // その他
+            return response()->view("error", ["error_code" => $e->getStatusCode(), "error_message" => "エラーが発生しました。", "user" => $user], $e->getStatusCode());
         }
-        // その他
-        return response()->view("error", ["error_code" => $e->getStatusCode(), "error_message" => "エラーが発生しました。", "user" => $user], $e->getStatusCode());
-        // return parent::render($request, $e);
+        return parent::render($request, $e);
     }
 
     /**
