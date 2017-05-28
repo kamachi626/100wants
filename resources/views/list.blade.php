@@ -20,7 +20,22 @@
 			<li>目標がありません！</li>
 		@endif
 		@foreach ($items as $item)
-			<li><div class="index">#{{sprintf('%d', $loop->index + 1)}}</div>{{$item->title}}</li>
+			<li class="list-item">
+				<div class="index">#{{sprintf('%d', $loop->index + 1)}}</div>
+				<p>{{$item->title}}</p>
+				@if (isset($item->comment))
+					<div class="comment">{{$item->comment}}</div>
+				@endif
+				@if ($item->is_done)
+					<p class="comment">
+						@if (isset($item->done))
+							{{$item->done}}に達成しました！
+						@else
+							達成しました！
+						@endif
+					</p>
+				@endif
+			</li>
 		@endforeach
 	</lu>
 

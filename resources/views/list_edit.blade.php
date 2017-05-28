@@ -25,17 +25,42 @@
 		<section class="lists">
 			<label class="pure-u-1">やりたいこと</label>
 			@foreach ($items as $item)
-				<section class="pure-g list-item">
+				<fieldset  class="pure-group list-item">
 					{{ Form::text(
 						"item_titles[".$loop->index."]",
 						$item->title,
 						[
 							"max-length" => "120",
-						 	"class" => "pure-u-1",
+						 	"class" => "pure-input-1",
 						 	"placeholder" => "やりたいこと その".($loop->index + 1)
 						])
 					}}
-				</section>
+					{{ Form::textarea(
+						"item_comments[".$loop->index."]",
+						$item->comment,
+						[
+							"max-length" => "500",
+						 	"class" => "pure-input-1 comment",
+						 	"placeholder" => "コメント",
+						])
+					}}
+					<section class="pure-input-1 done">
+						{{Form::checkbox("item_dones[".$loop->index."]", null, $item->is_done, [
+							"id" => "item_done_".$loop->index,
+							"class" => "tgl tgl-flip hidden",
+						])}}
+						<label
+							class="tgl-btn done-flg"
+							data-tg-off="未達成"
+							data-tg-on="達成"
+							for="{{"item_done_".$loop->index}}">
+						</label>
+						達成日:
+						{{Form::date("item_done_dates[".$loop->index."]", $item->done, [
+							"class" => "done-date",
+						])}}
+					</section>
+				</fieldset>
 			@endforeach
 		</section>
 

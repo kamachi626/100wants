@@ -188,6 +188,9 @@ class ListController extends Controller
         // 件数
         $item_count = 0;
         $item_titles = $req->input("item_titles");
+        $item_comments = $req->input("item_comments");
+        $item_dones = $req->input("item_dones");
+        $item_done_dates = $req->input("item_done_dates");
         foreach ($item_titles as $item_title) {
             if(isset($item_title)) {
                 $item_count++;
@@ -212,6 +215,9 @@ class ListController extends Controller
         for ($i=0; $i < 100; $i++) { 
             DB::table("items")->where("list_id", $id)->where("index", $i)->update([
                 "title" => isset($item_titles[$i]) ? $item_titles[$i] : null,
+                "comment" => isset($item_comments[$i]) ? $item_comments[$i] : null,
+                "is_done" => isset($item_dones[$i]) && $item_dones[$i] == true,
+                "done" => isset($item_done_dates[$i]) ? $item_done_dates[$i] : null,
             ]);
         }
 
